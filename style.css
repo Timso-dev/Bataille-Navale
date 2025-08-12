@@ -1,0 +1,637 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    min-height: 100vh;
+    color: #333;
+}
+
+.header {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: #1e3c72;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.game-container {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Panneau de contrôle */
+.control-panel {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 20px;
+    height: fit-content;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    position: sticky;
+    top: 20px;
+}
+
+.game-info, .ships-panel, .game-controls, .scoreboard, .legend {
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.game-info:last-child, .legend {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.game-info h3, .ships-panel h3, .scoreboard h3, .legend h3 {
+    color: #1e3c72;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.status-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.status-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border-left: 4px solid #2a5298;
+}
+
+.status-item .label {
+    font-weight: bold;
+    color: #6c757d;
+}
+
+/* Navires */
+.ships-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.ship-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 2px solid #dee2e6;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.ship-item:hover {
+    background: #e9ecef;
+    transform: translateY(-2px);
+}
+
+.ship-item.selected {
+    background: #cce5ff;
+    border-color: #2a5298;
+    box-shadow: 0 0 10px rgba(42, 82, 152, 0.3);
+}
+
+.ship-item.placed {
+    background: #d4edda;
+    border-color: #28a745;
+    cursor: default;
+}
+
+.ship-item.placed:hover {
+    transform: none;
+}
+
+.ship-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ship-icon {
+    font-size: 1.2rem;
+}
+
+.ship-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.ship-name {
+    font-weight: bold;
+    color: #333;
+}
+
+.ship-size {
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+
+.ship-visual {
+    display: flex;
+    gap: 2px;
+}
+
+.ship-segment {
+    width: 12px;
+    height: 12px;
+    background: #2a5298;
+    border-radius: 2px;
+}
+
+.placement-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+}
+
+/* Boutons */
+.btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.btn.primary {
+    background: #2a5298;
+    color: white;
+}
+
+.btn.primary:hover {
+    background: #1e3c72;
+    transform: translateY(-2px);
+}
+
+.btn.secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.btn.secondary:hover {
+    background: #545b62;
+    transform: translateY(-2px);
+}
+
+.btn:disabled {
+    background: #dee2e6;
+    color: #6c757d;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.game-controls {
+    display: grid;
+    gap: 10px;
+}
+
+/* Score */
+.scores {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.score-item {
+    padding: 12px;
+    border-radius: 8px;
+    border-left: 4px solid;
+}
+
+.score-item.player {
+    background: #e8f4fd;
+    border-left-color: #2a5298;
+}
+
+.score-item.ai {
+    background: #fff3cd;
+    border-left-color: #ffc107;
+}
+
+.player-name {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.ships-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Légende */
+.legend-items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 1px solid #333;
+}
+
+.legend-color.water { background: #87CEEB; }
+.legend-color.ship { background: #2a5298; }
+.legend-color.hit { background: #dc3545; }
+.legend-color.miss { background: #6c757d; }
+.legend-color.sunk { background: #343a40; }
+
+/* Grilles de jeu */
+.game-boards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.board-container {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.board-container h3 {
+    text-align: center;
+    color: #1e3c72;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+}
+
+.board-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.coordinates-top {
+    display: grid;
+    grid-template-columns: 30px repeat(10, 1fr);
+    gap: 2px;
+    margin-bottom: 2px;
+}
+
+.board-with-coords {
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    gap: 2px;
+}
+
+.coordinates-left {
+    display: grid;
+    grid-template-rows: repeat(10, 1fr);
+    gap: 2px;
+}
+
+.coord, .coord-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #1e3c72;
+    font-size: 0.9rem;
+    height: 35px;
+}
+
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    gap: 2px;
+    aspect-ratio: 1;
+    background: #1e3c72;
+    border-radius: 8px;
+    padding: 4px;
+}
+
+.cell {
+    background: #87CEEB;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.cell:hover {
+    background: #7fc4e8;
+    transform: scale(1.05);
+}
+
+/* États des cellules */
+.cell.ship {
+    background: #2a5298;
+    color: white;
+}
+
+.cell.hit {
+    background: #dc3545;
+    color: white;
+}
+
+.cell.hit::after {
+    content: '💥';
+    font-size: 1.2rem;
+}
+
+.cell.miss {
+    background: #6c757d;
+    color: white;
+}
+
+.cell.miss::after {
+    content: '💧';
+    font-size: 1rem;
+}
+
+.cell.sunk {
+    background: #343a40;
+    color: white;
+}
+
+.cell.sunk::after {
+    content: '☠️';
+    font-size: 1rem;
+}
+
+.cell.preview {
+    background: rgba(42, 82, 152, 0.5) !important;
+    border: 2px solid #2a5298;
+}
+
+.cell.invalid-preview {
+    background: rgba(220, 53, 69, 0.5) !important;
+    border: 2px solid #dc3545;
+}
+
+/* Grille ennemie */
+.enemy-board .cell {
+    cursor: crosshair;
+}
+
+.enemy-board .cell.ship {
+    background: #87CEEB; /* Masquer les navires ennemis */
+}
+
+.enemy-board .cell:hover {
+    background: #ffc107;
+    transform: scale(1.1);
+}
+
+.enemy-board .cell.hit:hover,
+.enemy-board .cell.miss:hover,
+.enemy-board .cell.sunk:hover {
+    transform: scale(1.05);
+}
+
+/* Messages */
+.message-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.message {
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s ease;
+    max-width: 400px;
+    text-align: center;
+}
+
+.message.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.message.success { background: #28a745; color: white; }
+.message.error { background: #dc3545; color: white; }
+.message.info { background: #17a2b8; color: white; }
+.message.warning { background: #ffc107; color: #333; }
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+}
+
+.modal.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: modalAppear 0.3s ease;
+}
+
+@keyframes modalAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.modal-content h2 {
+    color: #1e3c72;
+    margin-bottom: 20px;
+    font-size: 2rem;
+}
+
+.game-stats {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    text-align: left;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.stat-row:last-child {
+    margin-bottom: 0;
+}
+
+.modal-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* Animations */
+.cell.firing {
+    animation: firing 0.6s ease;
+}
+
+@keyframes firing {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.2); }
+    50% { transform: scale(0.9); }
+    75% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.ship-segment.placing {
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .game-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .control-panel {
+        position: static;
+        order: 2;
+    }
+    
+    .game-boards {
+        order: 1;
+    }
+}
+
+@media (max-width: 900px) {
+    .game-boards {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .header h1 {
+        font-size: 2rem;
+    }
+    
+    .game-container {
+        padding: 0 10px;
+    }
+}
+
+@media (max-width: 600px) {
+    .status-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .placement-controls {
+        grid-template-columns: 1fr;
+    }
+    
+    .modal-actions {
+        grid-template-columns: 1fr;
+    }
+    
+    .coord {
+        font-size: 0.7rem;
+        height: 25px;
+    }
+    
+    .cell {
+        font-size: 0.6rem;
+    }
+}
+
+/* Mode sombre (optionnel) */
+@media (prefers-color-scheme: dark) {
+    .control-panel,
+    .board-container {
+        background: rgba(30, 30, 30, 0.95);
+        color: #e9ecef;
+    }
+    
+    .game-info h3, .ships-panel h3, .scoreboard h3, .legend h3,
+    .board-container h3 {
+        color: #87CEEB;
+    }
+    
+    .ship-item {
+        background: #404040;
+        border-color: #555;
+        color: #e9ecef;
+    }
+    
+    .status-item {
+        background: #404040;
+        border-left-color: #87CEEB;
+    }
+}
